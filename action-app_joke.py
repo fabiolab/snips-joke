@@ -5,7 +5,7 @@ from hermes_python.hermes import Hermes
 
 # imported to get type check and IDE completion
 from hermes_python.ontology.dialogue.intent import IntentMessage
-from JokeService import JokeService
+from JokeFileService import JokeFileService
 
 CONFIG_INI = "config.ini"
 
@@ -17,11 +17,11 @@ MQTT_IP_ADDR = "localhost"
 MQTT_PORT = 1883
 MQTT_ADDR = "{}:{}".format(MQTT_IP_ADDR, str(MQTT_PORT))
 
-JOKE_URL = "https://bridge.buddyweb.fr/"
-JOKE_ENDPOINT = "api/blagues/blagues"
+# JOKE_URL = "https://bridge.buddyweb.fr/"
+# JOKE_ENDPOINT = "api/blagues/blagues"
 
 
-class Template(object):
+class SnipsJoke(object):
     """class used to wrap action code with mqtt connection
        please change the name refering to your application
     """
@@ -33,7 +33,7 @@ class Template(object):
         except Exception:
             self.config = None
 
-        self.joke_service = JokeService(JOKE_URL, JOKE_ENDPOINT)
+        self.joke_service = JokeFileService()
         # start listening to MQTT
         self.start_blocking()
 
@@ -65,4 +65,4 @@ class Template(object):
 
 
 if __name__ == "__main__":
-    Template()
+    SnipsJoke()

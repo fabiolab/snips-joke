@@ -8,7 +8,7 @@ This is a template helping you build the first Snips Voice App quickly.
 
 > This template is modified from [an origin python template](https://github.com/snipsco/snips-actions-templates) but using a riche action code structure. The origin template is made for connecting to snippets, you can use it to build action for a single intent easily. However, if you already know how snips action code works with bundles, feel free to choice the one you you like best!
 
-## Template Organisation
+## SnipsJoke Organisation
 
 Files listed below are required as a minimum construction, which ensures that this action code can be managed by `snips-skill-server`. But it does not mean you should only have these files.
 With a simple action, it can be written in the `action-app_example.py` file. However with some more complicated action code, it's better to have a specific class file for it.
@@ -50,7 +50,7 @@ MQTT_PORT: int = 1883
 MQTT_ADDR: str = "{}:{}".format(MQTT_IP_ADDR, str(MQTT_PORT))
 
 
-class Template(object):
+class SnipsJoke(object):
     """class used to wrap action code with mqtt connection
        please change the name refering to your application
     """
@@ -110,14 +110,14 @@ class Template(object):
 
 
 if __name__ == "__main__":
-    Template()
+    SnipsJoke()
 ```
 
 Note: because we can now use type check, and IDE can use that to give better completion, we import necessary definition and add types in methods.
 
 The beginning is similar to most Python codes, it imports all the necessary dependencies / modules. It also defines the config file name (Usually set to `config.ini` and put this file as the same directory with this code file) and MQTT connection info. If the App you are making is supposed to run on a satellite or some other devices, we recommend that the MQTT connection info should be loaded from the external `config.ini` file instead of fixing it in the code.
 
-The main part of this code is composed of one class - `Template`, which is used to bind App related action code with MQTT bus. This class should be named corresponding to the App.
+The main part of this code is composed of one class - `SnipsJoke`, which is used to bind App related action code with MQTT bus. This class should be named corresponding to the App.
 
 The code is mainly composed by different intent callback functions such as `tell_joke`, `inent_2_callback`. Inside each callback function is the place to write the intent related action code.
 
