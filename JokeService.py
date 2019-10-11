@@ -19,7 +19,7 @@ class JokeService:
             response = requests.get(url, params=parameters)
             if response.status_code >= 400:
                 e = Exception(
-                    f"HTTP Error calling {url} => {response.status_code} : {response.text}"
+                    "HTTP Error calling {} => {} : {}".format(url, response.status_code, response.text)
                 )
                 logger.error(e)
                 return DEFAULT_JOKE
