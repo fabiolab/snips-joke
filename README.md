@@ -66,7 +66,7 @@ class Template(object):
         self.start_blocking()
 
     @staticmethod
-    def intent_1_callback(self,
+    def tell_joke(self,
                           hermes: Hermes,
                           intent_message: IntentMessage):
 
@@ -103,7 +103,7 @@ class Template(object):
     # register callback function to its intent and start listen to MQTT bus
     def start_blocking(self):
         with Hermes(MQTT_ADDR) as h:
-            h.subscribe_intent('intent_1', self.intent_1_callback)
+            h.subscribe_intent('intent_1', self.tell_joke)
             .subscribe_intent('intent_2', self.intent_2_callback)
             # more intents and callbacks go here...
             .loop_forever()
@@ -119,7 +119,7 @@ The beginning is similar to most Python codes, it imports all the necessary depe
 
 The main part of this code is composed of one class - `Template`, which is used to bind App related action code with MQTT bus. This class should be named corresponding to the App.
 
-The code is mainly composed by different intent callback functions such as `intent_1_callback`, `inent_2_callback`. Inside each callback function is the place to write the intent related action code.
+The code is mainly composed by different intent callback functions such as `tell_joke`, `inent_2_callback`. Inside each callback function is the place to write the intent related action code.
 
 > For the intent callback function, it's better to terminate the session first if there is no need to continue. This can prevent other snips components (Like dialog-manager, hotword..) from being blocked by the action code.
 

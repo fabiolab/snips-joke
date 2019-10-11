@@ -5,6 +5,7 @@ from hermes_python.hermes import Hermes
 
 # imported to get type check and IDE completion
 from hermes_python.ontology.dialogue.intent import IntentMessage
+from JokeService import JokeService
 
 CONFIG_INI = "config.ini"
 
@@ -15,6 +16,9 @@ CONFIG_INI = "config.ini"
 MQTT_IP_ADDR = "localhost"
 MQTT_PORT = 1883
 MQTT_ADDR = "{}:{}".format(MQTT_IP_ADDR, str(MQTT_PORT))
+
+JOKE_URL = "https://bridge.buddyweb.fr/"
+JOKE_ENDPOINT = "api/blagues/blagues"
 
 
 class Template(object):
@@ -29,11 +33,11 @@ class Template(object):
         except Exception:
             self.config = None
 
+        self.joke_service = JokeService(JOKE_URL, JOKE_ENDPOINT)
         # start listening to MQTT
         self.start_blocking()
 
-    @staticmethod
-    def intent_1_callback(hermes: Hermes, intent_message: IntentMessage):
+    def tell_joke(self, hermes: Hermes, intent_message: IntentMessage):
 
         # terminate the session first if not continue
         hermes.publish_end_session(intent_message.session_id, "")
@@ -43,14 +47,14 @@ class Template(object):
 
         # if need to speak the execution result by tts
         hermes.publish_start_session_notification(
-            intent_message.site_id, "playSong", ""
+            intent_message.site_id, self.joke_service.get_joke(), ""
         )
 
     def master_intent_callback(self, hermes, intent_message):
         print("[Received] intent {}".format(intent_message.intent.intent_name))
         coming_intent = intent_message.intent.intent_name
-        if coming_intent == 'fabio35:playSong':
-            self.intent_1_callback(hermes, intent_message)
+        if coming_intent == "fabio35:tellJoke":
+            self.tell_joke(hermes, intent_message)
 
         # more callback and if condition goes here...
 
